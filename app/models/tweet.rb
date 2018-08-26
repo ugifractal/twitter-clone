@@ -13,4 +13,40 @@ class Tweet < ActiveRecord::Base
 
   mount_uploader :media, MediaUploader
 
+  before_save :do_before_save
+
+  def do_before_save
+    pattern = /\s(http[s]*:\/\/[a-z0-9.\/?=%]+)(\s|$)/i
+
+    if (self.tweet_text.to_s =~ pattern).nil?
+      return
+    end
+
+    original = self.tweet_text
+    begin
+      segments = self.tweet_text.split(pattern)
+      shorteds = segments.collect{ |text|
+        
+        if text.start_with?("http")
+          resp = Tweet.call_short(text)
+          if resp['status'] == 'ok'
+            resp['url']
+          else
+            text
+          end
+        else
+          text
+        end 
+      }
+      self.tweet_text = shorteds.join(" ")
+    rescue Exception => e
+      self.tweet_text = original
+    end
+  end
+  
+  def self.call_short(url)
+    host = (Rails.env == 'development')? 'http://localhost:9393' : 'http://s.snppt.com'
+    resp = Faraday.post("#{host}/api_url?long_url=#{url}")
+    JSON.parse(resp.body)
+  end
 end

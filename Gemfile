@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 gem "puma", "~> 3.12"
+gem 'byebug'
+gem 'faraday'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.6'
