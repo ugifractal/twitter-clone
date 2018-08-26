@@ -16,7 +16,7 @@ class Tweet < ActiveRecord::Base
   before_save :do_before_save
 
   def do_before_save
-    pattern = /\s(http[s]*:\/\/[a-z0-9.\/?=%]+)(\s|$)/i
+    pattern = /(\s|^)(http[s]*:\/\/[a-z0-9.\/?=%:_&~]+)(\s|$)/i
 
     if (self.tweet_text.to_s =~ pattern).nil?
       return
