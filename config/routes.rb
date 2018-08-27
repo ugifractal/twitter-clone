@@ -30,7 +30,7 @@ Rails.application.routes.draw do
   resources :favorites, only: [:create, :destroy]
   resources :retweets, only: [:create, :destroy]
   resources :find_friends, only: :index
-
+  get 'home/get_image' => 'home#get_image'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

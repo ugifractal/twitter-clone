@@ -15,9 +15,20 @@
       <div class="post">
         <%= auto_link(parse(tweet.tweet_text), html: { target: '_blank' }) %>
       </div>
-      <div class="media">
-        <%= image_tag tweet.media_url, style: "width: 100%; margin-top: 10px;" if tweet.media? %>
-      </div>
+      <%  if tweet.media? %>
+        <div class="media">        
+          <%= image_tag tweet.media_url, style: "width: 100%; margin-top: 10px;" %>
+        </div>
+      <% else %>
+         <% if tweet.image_url.present? %>
+           <div class="media media-with-url">
+             <%= image_tag tweet.image_url, style: "width: 100%; margin-top: 10px;" %>
+           </div>
+         <% else %>
+           <div class="media"></div>
+         <% end %>        
+      <% end %>
+      
     </div>
     <div class="right-content">
       <span><%= relative_time(tweet.created_at) %></span>
