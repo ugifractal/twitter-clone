@@ -32,7 +32,7 @@ class Tweet < ActiveRecord::Base
   end
 
   def short_url
-    pattern = /(\s|^)(http[s]*:\/\/[a-z0-9.\/?=%:_&~-]+)(\s|$)/i
+    pattern = /(\s|^)(http[s]*:\/\/[a-z0-9.\/?=%:_&~-#]+)(\s|$)/i
     if (self.tweet_text.to_s =~ pattern).nil?
       return
     end
@@ -60,7 +60,7 @@ class Tweet < ActiveRecord::Base
   end
 
   def urls
-    pattern = /(\s|^)(http[s]*:\/\/[a-z0-9.\/?=%:_&~-]+)(\s|$)/i
+    pattern = /(\s|^)(http[s]*:\/\/[a-z0-9.\/?=%:_&~-#]+)(\s|$)/i
     addrs = []
     if (self.tweet_text.to_s =~ pattern).nil?
       return []
